@@ -28,8 +28,16 @@ public class Employee {
 	private String spouseName;
 	private String spouseIdNumber;
 
-	private List<String> childNames;
-	private List<String> childIdNumbers;
+	private List<Child> children;
+	public class Child {
+		private String name;
+		private String idNumber;
+		
+		public Child(String name, String idNumber) {
+			this.name = name;
+			this.idNumber = idNumber;
+		}
+	}
 	
 	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
 		this.employeeId = employeeId;
@@ -43,8 +51,7 @@ public class Employee {
 		this.isForeigner = isForeigner;
 		this.gender = gender;
 		
-		childNames = new LinkedList<String>();
-		childIdNumbers = new LinkedList<String>();
+		children = new LinkedList<>();
 	}
 	
 	/**
@@ -85,8 +92,7 @@ public class Employee {
 	}
 	
 	public void addChild(String childName, String childIdNumber) {
-		childNames.add(childName);
-		childIdNumbers.add(childIdNumber);
+		children.add(new Child(childName, childIdNumber));
 	}
 	
 	public int getAnnualIncomeTax() {
@@ -100,6 +106,6 @@ public class Employee {
 			monthWorkingInYear = 12;
 		}
 		
-		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
+		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), children.size());
 	}
 }
